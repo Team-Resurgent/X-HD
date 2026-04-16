@@ -41,7 +41,13 @@ int main(void)
     if (!magic_set && !recovery && can_launch_application()) {
         jump_to_application();
     }
-    enter_bootloader_mode();
+
+    // If magic is set, go straight to FW update mode and dont setup the adv
+    if (magic_set) {
+        enter_bootloader_mode_fw();
+    } else {
+        enter_bootloader_mode();
+    }
 }
 
 bool can_launch_application(void)
@@ -83,11 +89,10 @@ void jump_to_application(void)
 
 void enter_bootloader_mode(void)
 {
-    debug_log("Waiting for update...\r\n");
+    debug_log("Waiting for fw recovery...\r\n");
 
-    smbus_i2c_init();
-    init_gpio();
     init_adv(&encoder, xb_encoder);
+    smbus_i2c_init();
 
     static uint32_t last_blink = 0;
     static bool led_state = false;
@@ -104,5 +109,19 @@ void enter_bootloader_mode(void)
         // ADV handling for VIC mode for emergency
         adv_handle_interrupts(&encoder);
         stand_alone_loop(&encoder, xb_encoder);
+    }
+}
+
+void enter_bootloader_mode_fw(void)
+{
+    debug_log("Waiting for update...\r\n");
+
+    smbus_i2c_init();
+  
+    set_led_1(false);
+    set_led_2(true);
+
+    while(1) {
+        HAL_Delay(10);
     }
 }
