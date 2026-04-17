@@ -32,11 +32,11 @@ void adv7511_struct_init(adv7511 *encoder) {
 void adv7511_power_up(adv7511 *encoder) {
     // Power up the encoder
     adv7511_write_register(0x41, 0x10); // Power up
-    HAL_Delay(50);
+    HAL_Delay(30);
 
     // Reset
     adv7511_write_register(0x41, 0x00);
-    HAL_Delay(50);
+    HAL_Delay(30);
     adv7511_write_register(0x41, 0x10);
     HAL_Delay(50);
 }
@@ -60,6 +60,13 @@ void adv_handle_interrupts(adv7511 *encoder) {
         encoder->interrupt = 0;
         // Re-enable interrupts
         adv7511_update_register(0x96, 0b11000000, 0xC0);
+    }
+}
+
+void adv7511_apply_csc(const uint8_t * const coefficients) {
+    // Write CSC coefficients to registers 0x18-0x2F
+    for (uint8_t i = 0; i < 24; i++) {
+        adv7511_write_register(0x18 + i, coefficients[i]);
     }
 }
 

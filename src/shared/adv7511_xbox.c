@@ -15,7 +15,6 @@ void init_adv(adv7511 *encoder, const xbox_encoder xb_encoder) {
 
     // Power up the encoder and set fixed registers
     adv7511_power_up(encoder);
-    HAL_Delay(50);
 
     adv7511_disable_video();
 
@@ -40,9 +39,6 @@ void init_adv(adv7511 *encoder, const xbox_encoder xb_encoder) {
 
     // Disable CSC
     adv7511_update_register(0x18, 0b10000000, 0b00000000);
-
-    // Set default infoframe
-    update_avi_infoframe(false, false, VIC_02_480p_60__4_3);
 
     // Set Output to HDMI Mode (Instead of DVI Mode)
     // [7] HDCP Disabled

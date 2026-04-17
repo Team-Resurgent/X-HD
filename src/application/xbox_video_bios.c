@@ -39,6 +39,17 @@ void bios_loop(xbox_encoder * xb_encoder) {
 }
 
 void set_video_mode_bios(const xbox_encoder xb_encoder, const uint32_t mode, const uint32_t avinfo, const video_region region) {
+    static uint32_t current_mode = 0;
+    static uint32_t current_avinfo = 0;
+
+    // If the mode is the same as before, bail
+    if ((current_mode == mode) && (current_avinfo == avinfo)) {
+        return;
+    }
+
+    current_avinfo = avinfo;
+    current_mode = mode;
+
     const VideoMode* table;
     size_t count;
 

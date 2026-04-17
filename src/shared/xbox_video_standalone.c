@@ -84,6 +84,10 @@ void set_video_mode_vic(const xbox_encoder xb_encoder, const uint8_t mode, const
 
     debug_log("Set %d mode, widescreen %s, interlaced %s\r\n", mode, widescreen ? "true" : "false", interlaced ? "true" : "false");
 
+    if (rgb) {
+        adv7511_apply_csc(mode >= XBOX_VIDEO_720p ? (uint8_t *)CscRgbToYuv709 : (uint8_t *)CscRgbToYuv601);
+    }
+
     // Enable CSC when the source is RGB so HDMI output matches the AVI infoframe
     adv7511_update_register(0x18, 0b10000000, rgb ? 0b10000000 : 0b00000000);
 
