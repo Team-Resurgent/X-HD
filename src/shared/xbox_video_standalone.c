@@ -40,24 +40,24 @@ void stand_alone_loop(adv7511 * encoder, const xbox_encoder xb_encoder) {
         encoder->vic &= ADV7511_VIC_CHANGED_CLEAR;
 
         if (encoder->vic == VIC_01_VGA_640x480_4_3) {
-            set_video_mode_vic(xb_encoder, XBOX_VIDEO_VGA, false, false, true);
+            set_video_mode_vic(xb_encoder, XBOX_VIDEO_VGA, false, false);
         }
         else if (encoder->vic == VIC_02_480p_60__4_3 || encoder->vic == VIC_00_VIC_Unavailable) {
-            set_video_mode_vic(xb_encoder, XBOX_VIDEO_480p_640, false, false, false);
+            set_video_mode_vic(xb_encoder, XBOX_VIDEO_480p_640, false, false);
         }
         else if (encoder->vic == VIC_03_480p_60_16_9) {
-            set_video_mode_vic(xb_encoder, XBOX_VIDEO_480p_720, true, false, false);
+            set_video_mode_vic(xb_encoder, XBOX_VIDEO_480p_720, true, false);
         }
         else if (encoder->vic == VIC_04_720p_60_16_9) {
-            set_video_mode_vic(xb_encoder, XBOX_VIDEO_720p, true, false, false);
+            set_video_mode_vic(xb_encoder, XBOX_VIDEO_720p, true, false);
         }
         else if (encoder->vic == VIC_05_1080i_60_16_9) {
-            set_video_mode_vic(xb_encoder, XBOX_VIDEO_1080i, true, true, false);
+            set_video_mode_vic(xb_encoder, XBOX_VIDEO_1080i, true, true);
         }
     }
 }
 
-void set_video_mode_vic(const xbox_encoder xb_encoder, const uint8_t mode, const bool widescreen, const bool interlaced, const bool rgb) {
+void set_video_mode_vic(const xbox_encoder xb_encoder, const uint8_t mode, const bool widescreen, const bool interlaced) {
     if (mode > XBOX_VIDEO_1080i) {
         debug_log("Invalid video mode for VIC\r\n");
         return;
@@ -84,12 +84,8 @@ void set_video_mode_vic(const xbox_encoder xb_encoder, const uint8_t mode, const
 
     debug_log("Set %d mode, widescreen %s, interlaced %s\r\n", mode, widescreen ? "true" : "false", interlaced ? "true" : "false");
 
-    if (rgb) {
-        adv7511_apply_csc(mode >= XBOX_VIDEO_720p ? (uint8_t *)CscRgbToYuv709 : (uint8_t *)CscRgbToYuv601);
-    }
-
-    // Enable CSC when the source is RGB so HDMI output matches the AVI infoframe
-    adv7511_update_register(0x18, 0b10000000, rgb ? 0b10000000 : 0b00000000);
+    // Disable CSC
+    adv7511_update_register(0x18, 0b10000000, 0b00000000);
 
     adv7511_write_register(0x35, (uint8_t)(vs->delay_hs >> 2));
     adv7511_write_register(0x36, ((0b00111111 & (uint8_t)vs->delay_vs)) | (0b11000000 & (uint8_t)(vs->delay_hs << 6)));
@@ -98,7 +94,7 @@ void set_video_mode_vic(const xbox_encoder xb_encoder, const uint8_t mode, const
     adv7511_write_register(0x39, (uint8_t)(vs->active_h >> 4));
     adv7511_write_register(0x3A, (uint8_t)(vs->active_h << 4));
 
-    update_avi_infoframe(widescreen, rgb, vs->vic);
+    update_avi_infoframe(widescreen, false, vs->vic);
 
     // For VIC mode
     if (interlaced) {

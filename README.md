@@ -41,6 +41,7 @@ XHDUpdater source code: [https://github.com/Team-Resurgent/XHDUpdater](https://g
 - This firmware is **NOT** supported by the HD+ creator, so don't got bother MakeMHz for support
 - Before attempting to use this, make sure your install works properly with the original FW + patched bios provided by MakeMHz
 - Not all features from the original FW are present, bios dependent features like 720p scaling will never be implemented (the adv chip itself doesn't scale the picture).
+- RGB will not work in VIC mode, you can modify the FW for that but unless using a patched bios that break the colors
 
 
 ## To do
