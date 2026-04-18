@@ -1,8 +1,8 @@
 // Copyright 2021, Ryan Wendland, XboxHDMI by Ryzee119
 // SPDX-License-Identifier: MIT
 
-#ifndef __ADV7511_MINIMAL_H__
-#define __ADV7511_MINIMAL_H__
+#ifndef __ADV7511_H__
+#define __ADV7511_H__
 
 #include "stm32.h"
 #include "stdbool.h"
@@ -48,6 +48,9 @@ void adv7511_write_register(const uint8_t address, uint8_t value);
 void adv7511_struct_init(adv7511 *encoder);
 
 void adv_handle_interrupts(adv7511 *encoder);
+
+void adv7511_enable_csc();
+void adv7511_disable_csc();
 void adv7511_apply_csc(const uint8_t * const coefficients);
 
 // New stuff
@@ -56,4 +59,4 @@ void adv7511_enable_video();
 void adv7511_power_down_tmds();
 void adv7511_power_up_tmds();
 
-#endif // __ADV7511_MINIMAL_H__
+#endif // __ADV7511_H__

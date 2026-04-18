@@ -29,16 +29,13 @@ void init_adv(adv7511 *encoder, const xbox_encoder xb_encoder) {
     // [0] YCbCr
     adv7511_write_register(0x16, 0b00111011);
 
-    update_avi_infoframe(false, false, 0);
-
     // Setup xbox encoder specific stuff (Xcalibur uses different settings)
     init_adv_encoder_specific(xb_encoder);
 
     // [0] Enable DE generation. This is derived from HSYNC,VSYNC for video active framing
     adv7511_update_register(0x17, 0b00000001, 0b00000001);
 
-    // Disable CSC
-    adv7511_update_register(0x18, 0b10000000, 0b00000000);
+    adv7511_disable_csc();
 
     // Set Output to HDMI Mode (Instead of DVI Mode)
     // [7] HDCP Disabled

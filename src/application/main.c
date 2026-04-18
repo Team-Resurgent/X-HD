@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "stm32f0xx_hal.h"
 #include "../shared/adv7511_i2c.h"
-#include "../shared/adv7511_minimal.h"
+#include "../shared/adv7511.h"
 #include "../shared/adv7511_xbox.h"
 #include "../shared/debug.h"
 #include "../shared/xbox_video_standalone.h"

@@ -4,7 +4,7 @@
 // XBOX / TR HDMI specific ADV functions
 
 #include "adv7511_i2c.h"
-#include "adv7511_minimal.h"
+#include "adv7511.h"
 #include "xbox_video_standalone.h"
 
 void init_adv(adv7511 *encoder, const xbox_encoder xb_encoder);

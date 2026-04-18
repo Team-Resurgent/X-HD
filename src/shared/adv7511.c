@@ -1,7 +1,7 @@
 // Copyright 2021, Ryan Wendland, XboxHDMI by Ryzee119
 // SPDX-License-Identifier: MIT
 
-#include "adv7511_minimal.h"
+#include "adv7511.h"
 #include "../shared/adv7511_i2c.h"
 
 uint8_t adv7511_read_register(const uint8_t address) {
@@ -63,8 +63,16 @@ void adv_handle_interrupts(adv7511 *encoder) {
     }
 }
 
+void adv7511_enable_csc() {
+    adv7511_update_register(0x18, 0b10000000, 0b10000000);
+}
+
+void adv7511_disable_csc() {
+    adv7511_update_register(0x18, 0b10000000, 0b00000000);
+}
+
 void adv7511_apply_csc(const uint8_t * const coefficients) {
-    // Write CSC coefficients to registers 0x18-0x2F
+    // Write CSC coefficients to registers 0x18-0x2F (enables CSC)
     for (uint8_t i = 0; i < 24; i++) {
         adv7511_write_register(0x18 + i, coefficients[i]);
     }

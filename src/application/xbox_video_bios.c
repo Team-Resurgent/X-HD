@@ -111,10 +111,10 @@ void set_adv_video_mode_bios(const VideoMode vm, const bool widescreen, const bo
         adv7511_apply_csc(vm.h_active >= 1280
             ? (uint8_t *)CscRgbToYuv709
             : (uint8_t *)CscRgbToYuv601);
+    } else {
+        adv7511_disable_csc();
     }
-    // Enable CSC only when source is RGB
-    adv7511_update_register(0x18, 0b10000000, rgb ? 0b10000000 : 0b00000000);
-
+    
     adv7511_write_register(0x35, (uint8_t)(vm.hs_delay >> 2));
     adv7511_write_register(0x36, ((0b00111111 & (uint8_t)vm.vs_delay)) | (0b11000000 & (uint8_t)(vm.hs_delay << 6)));
     adv7511_update_register(0x37, 0b00011111, (uint8_t)(vm.h_active >> 7)); // 0x37 is shared with interlaced
@@ -146,7 +146,8 @@ void set_adv_video_mode_bios(const VideoMode vm, const bool widescreen, const bo
     // Set the vic for internal tracking and AVI InfoFrame
     adv7511_write_register(0x3C, vic);
 
-    update_avi_infoframe(ws_infoframe, rgb, vic);
+    // Since we use CSC, rgb is always false
+    update_avi_infoframe(ws_infoframe, false, vic);
 }
 
 uint8_t get_vic_from_video_mode(const VideoMode * const vm, const bool widescreen) {
