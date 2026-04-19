@@ -42,6 +42,7 @@ XHDUpdater source code: [https://github.com/Team-Resurgent/XHDUpdater](https://g
 - Before attempting to use this, make sure your install works properly with the original FW + patched bios provided by MakeMHz
 - Not all features from the original FW are present, bios dependent features like 720p scaling will never be implemented (the adv chip itself doesn't scale the picture).
 - RGB will not work in VIC mode, you can modify the FW for that but unless using a patched bios that break the colors
+- XBlast will have the wrong colors in VIC mode in 1.0-1.4 mobos. This is not a bug in the FW, but a side effect of how XBlast inits the gpu/encoder (the pixel bus is set to RGB instead of YUV).
 
 
 ## To do
