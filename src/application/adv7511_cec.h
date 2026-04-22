@@ -11,4 +11,4 @@ const uint8_t ADV7511_PACKET_I2C_ADDR_DEFAULT = 0x70; //0x70>>1
 
 void adv7511_write_cec(const uint8_t address, uint8_t value);
 
-#endif // __ADV7511_H__
+#endif // __ADV7511_CEC_H__

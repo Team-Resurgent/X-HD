@@ -19,7 +19,7 @@ typedef struct {
 
 static RingBuffer debugBuffer = {0};
 
-void debug_init() 
+void debug_init()
 {
     __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_USART2_CLK_ENABLE();
@@ -48,7 +48,7 @@ void debug_init()
 
 void debug_log(const char *fmt, ...)
 {
-    char buffer[256]; 
+    char buffer[256];
     va_list args;
     va_start(args, fmt);
     vsnprintf(buffer, sizeof(buffer), fmt, args);
@@ -58,7 +58,7 @@ void debug_log(const char *fmt, ...)
 
 void debug_ring_log(const char *fmt, ...)
 {
-    char buffer[256]; 
+    char buffer[256];
     va_list args;
     va_start(args, fmt);
     int len = vsnprintf(buffer, sizeof(buffer), fmt, args);
@@ -67,7 +67,7 @@ void debug_ring_log(const char *fmt, ...)
     for(int i = 0; i < len; i++)
     {
         uint16_t next = (debugBuffer.head + 1) % RING_BUFFER_SIZE;
-        if(next == debugBuffer.tail) 
+        if(next == debugBuffer.tail)
         {
             break;
         }

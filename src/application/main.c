@@ -24,10 +24,10 @@ extern void SystemClock_Config(void);
 
 void relocate_vector_table_to_ram(void)
 {
-	for (uint32_t i = 0; i < VECTOR_TABLE_SIZE; i++) {
-		RAM_VECTOR_TABLE[i] = APP_VECTOR_TABLE[i];
-	}
-	__HAL_SYSCFG_REMAPMEMORY_SRAM();
+    for (uint32_t i = 0; i < VECTOR_TABLE_SIZE; i++) {
+        RAM_VECTOR_TABLE[i] = APP_VECTOR_TABLE[i];
+    }
+    __HAL_SYSCFG_REMAPMEMORY_SRAM();
 }
 
 int main(void)
