@@ -35,7 +35,7 @@ int main(void)
     // Allow user to force any of the 3 encoders, only required for vic mode
 #ifdef BUILD_XCALIBUR
     xbox_encoder xb_encoder = ENCODER_XCALIBUR;
-#elif BUILD_FOCUS
+#elif defined BUILD_FOCUS
     xbox_encoder xb_encoder = ENCODER_FOCUS;
 #else
     xbox_encoder xb_encoder = ENCODER_CONEXANT;
