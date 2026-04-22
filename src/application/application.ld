@@ -4,7 +4,7 @@
 
 **  File        : LinkerScript.ld
 **
-**  Author		: STM32CubeMX
+**  Author      : STM32CubeMX
 **
 **  Abstract    : Linker script for STM32F030C8Tx series
 **                64Kbytes FLASH and 8Kbytes RAM
