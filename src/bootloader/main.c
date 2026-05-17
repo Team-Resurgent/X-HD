@@ -18,7 +18,7 @@ adv7511 encoder;
 // Allow user to force any of the 3 encoders, only required for vic mode
 #ifdef BUILD_XCALIBUR
     xbox_encoder xb_encoder = ENCODER_XCALIBUR;
-#elif BUILD_FOCUS
+#elif defined BUILD_FOCUS
     xbox_encoder xb_encoder = ENCODER_FOCUS;
 #else
     xbox_encoder xb_encoder = ENCODER_CONEXANT;
@@ -117,7 +117,7 @@ void enter_bootloader_mode_fw(void)
     debug_log("Waiting for update...\r\n");
 
     smbus_i2c_init();
-  
+
     set_led_1(false);
     set_led_2(true);
 
