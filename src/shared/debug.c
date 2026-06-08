@@ -1,9 +1,10 @@
-#include "debug.hpp"
-#include "stm32.hpp"
+#include "debug.h"
+#include "stm32.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <stdint.h>
 
 #ifdef DEBUG_OUT
 

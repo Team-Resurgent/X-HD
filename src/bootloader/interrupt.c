@@ -1,5 +1,5 @@
 #include "stm32f0xx_hal.h"
-#include "../shared/debug.hpp"
+#include "../shared/debug.h"
 #include "../shared/defines.h"
 
 // Get application's interrupt handlers from application's vector table

@@ -4,7 +4,7 @@
 #include "adv7511.hpp"
 #include "adv7511_vic.hpp"
 #include "adv7511_xbox.hpp"
-#include "debug.hpp"
+#include "debug.h"
 
 constexpr video_setting_vic video_settings_conexant[] = {
     {119, 36,  640, 480, VIC_01_VGA_640x480_4_3},

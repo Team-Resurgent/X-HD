@@ -1,10 +1,11 @@
 #include "../shared/adv7511_vic.hpp"
 #include "../shared/adv7511_xbox.hpp"
-#include "../shared/debug.hpp"
+#include "../shared/debug.h"
 #include "../shared/types.hpp"
 #include "adv7511.hpp"
 #include "xbox_video_bios.hpp"
 #include "smbus_i2c.hpp"
+#include <cstdint>
 
 void set_video_mode_bios(const xbox_encoder xb_encoder, const uint32_t mode, const uint32_t avinfo, const video_region region);
 void set_adv_video_mode_bios(const VideoMode video_mode, const bool widescreen, const bool rgb);

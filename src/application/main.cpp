@@ -4,7 +4,7 @@
 #include "stm32f0xx_hal.h"
 #include "../shared/adv7511.hpp"
 #include "../shared/adv7511_xbox.hpp"
-#include "../shared/debug.hpp"
+#include "../shared/debug.h"
 #include "../shared/xbox_video_standalone.hpp"
 #include "../shared/gpio.hpp"
 #include "../shared/defines.h"
@@ -37,12 +37,12 @@ int main(void)
 #else
     xbox_encoder xb_encoder = ENCODER_CONEXANT;
 #endif
-
-    __enable_irq();
     relocate_vector_table_to_ram();
 
     HAL_Init();
     SystemClock_Config();
+
+    __enable_irq();
 
     debug_init();
     debug_log("Entering Application...\r\n");

@@ -1,5 +1,5 @@
 #include "error_handler.h"
-#include "debug.hpp"
+#include "debug.h"
 
 extern "C"
 void _Error_Handler(char *file, int line) {

@@ -2,7 +2,7 @@
 #include "stm32f0xx_hal.h"
 #include "../shared/adv7511_xbox.hpp"
 #include "../shared/defines.h"
-#include "../shared/debug.hpp"
+#include "../shared/debug.h"
 #include "../shared/xbox_video_standalone.hpp"
 #include "../shared/gpio.hpp"
 #include "smbus_i2c.hpp"
