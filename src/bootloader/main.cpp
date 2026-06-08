@@ -1,17 +1,13 @@
 #include "main.h"
 #include "stm32f0xx_hal.h"
-#include "stm32f0xx.h"
-#include <string.h>
-#include "../shared/adv7511_xbox.h"
-#include "../shared/crc32.h"
+#include "../shared/adv7511_xbox.hpp"
 #include "../shared/defines.h"
-#include "../shared/debug.h"
-#include "../shared/error_handler.h"
-#include "../shared/xbox_video_standalone.h"
-#include "../shared/gpio.h"
-#include "smbus_i2c.h"
+#include "../shared/debug.hpp"
+#include "../shared/xbox_video_standalone.hpp"
+#include "../shared/gpio.hpp"
+#include "smbus_i2c.hpp"
 
-extern void SystemClock_Config(void);
+extern "C" void SystemClock_Config(void);
 
 adv7511 encoder;
 

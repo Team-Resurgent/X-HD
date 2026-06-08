@@ -1,9 +1,10 @@
-#include "../shared/adv7511_vic.h"
-#include "../shared/adv7511_xbox.h"
-#include "../shared/debug.h"
-#include "adv7511.h"
-#include "xbox_video_bios.h"
-#include "smbus_i2c.h"
+#include "../shared/adv7511_vic.hpp"
+#include "../shared/adv7511_xbox.hpp"
+#include "../shared/debug.hpp"
+#include "../shared/types.hpp"
+#include "adv7511.hpp"
+#include "xbox_video_bios.hpp"
+#include "smbus_i2c.hpp"
 
 void set_video_mode_bios(const xbox_encoder xb_encoder, const uint32_t mode, const uint32_t avinfo, const video_region region);
 void set_adv_video_mode_bios(const VideoMode video_mode, const bool widescreen, const bool rgb);
@@ -15,19 +16,24 @@ void bios_loop(xbox_encoder * xb_encoder) {
 
     if (video_mode_updated()) {
         const SMBusSettings * const vid_settings = getSMBusSettings();
+        const xbox_encoder enc = static_cast<xbox_encoder>(vid_settings->encoder);
         // Detect the encoder, if it changed reinit encoder specific values
-        if (*xb_encoder != vid_settings->encoder) {
-            (*xb_encoder) = vid_settings->encoder;
+        if (*xb_encoder != enc) {
+            (*xb_encoder) = enc;
             init_adv_encoder_specific(*xb_encoder);
+            // Clean current mode since we need to setup the video again either way
+            current_mode = 0;
+            current_avinfo = 0;
         }
 
         const uint32_t mode = vid_settings->mode;
         const uint32_t avinfo = vid_settings->avinfo;
+        const video_region v_region = static_cast<video_region>(vid_settings->region);
 
         // Only change the video mode if we actually got a new video mode
         if ((current_mode != mode) || (current_avinfo != avinfo)) {
             adv7511_power_down_tmds();
-            set_video_mode_bios(*xb_encoder, mode, avinfo, vid_settings->region);
+            set_video_mode_bios(*xb_encoder, mode, avinfo, v_region);
             adv7511_power_up_tmds();
 
             current_avinfo = avinfo;

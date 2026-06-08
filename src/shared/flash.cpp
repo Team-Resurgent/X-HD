@@ -1,11 +1,11 @@
-#include "flash.h"
+#include "flash.hpp"
 
 #include "defines.h"
-#include "smbus_i2c.h"
-#include "stm32.h"
-#include "crc32.h"
+#include "smbus_i2c.hpp"
+#include "stm32.hpp"
+#include "crc32.hpp"
 
-bool flash_erase_page(uint16_t page)
+bool flash_erase_page(const uint16_t page)
 {
     uint32_t flash_addr = FLASH_START_ADDRESS + (page * FLASH_PAGE_SIZE);
 
@@ -24,7 +24,7 @@ bool flash_erase_page(uint16_t page)
     return status == HAL_OK;
 }
 
-bool flash_write_page(uint16_t page, uint8_t* data, uint16_t data_size)
+bool flash_write_page(const uint16_t page, const uint8_t* data, const uint16_t data_size)
 {
     uint32_t flash_addr = FLASH_START_ADDRESS + (page * FLASH_PAGE_SIZE);
 
@@ -46,7 +46,7 @@ bool flash_write_page(uint16_t page, uint8_t* data, uint16_t data_size)
     return status == HAL_OK;
 }
 
-uint32_t flash_copy_page(uint16_t page, uint8_t* data, uint16_t data_size)
+uint32_t flash_copy_page(const uint16_t page, uint8_t* data, const uint16_t data_size)
 {
     uint32_t flash_addr = FLASH_START_ADDRESS + (page * FLASH_PAGE_SIZE);
     return crc32_copy(flash_addr, data, data_size);

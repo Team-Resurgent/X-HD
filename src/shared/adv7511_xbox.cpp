@@ -1,4 +1,6 @@
-#include "adv7511_xbox.h"
+#include "adv7511_i2c.hpp"
+#include "adv7511_vic.hpp"
+#include "adv7511_xbox.hpp"
 
 void init_adv(adv7511 *encoder, const xbox_encoder xb_encoder) {
     adv7511_i2c_init();
@@ -29,6 +31,9 @@ void init_adv(adv7511 *encoder, const xbox_encoder xb_encoder) {
     // [0] YCbCr
     adv7511_write_register(0x16, 0b00111011);
 
+    // [3:2] No sync pulse
+    adv7511_update_register(0xD0, 0b00001100, 0b00001100);
+
     // Setup xbox encoder specific stuff (Xcalibur uses different settings)
     init_adv_encoder_specific(xb_encoder);
 
@@ -58,9 +63,6 @@ void init_adv_encoder_specific(const xbox_encoder xb_encoder) {
     if (xb_encoder == ENCODER_XCALIBUR) {
         // [6] Normal Bus Order, [5] DDR Alignment D[35:18] (left aligned)
         adv7511_update_register(0x48, 0b01100000, 0b00100000);
-        // [7] Enable DDR Negative Edge CLK Delay, [6:4] with -800ps delay
-        // [3:2] No sync pulse, [1] Data enable, then sync, [0] Fixed
-        adv7511_write_register(0xD0, 0b10011110);
         // [7:5] -0.8ns clock delay
         adv7511_update_register(0xBA, 0b11100000, 0b00100000);
     } else if (xb_encoder == ENCODER_FOCUS) {
@@ -68,18 +70,12 @@ void init_adv_encoder_specific(const xbox_encoder xb_encoder) {
         // to avoid blue color artifacts from marginal data sampling
         // [6] LSB .... MSB Reverse Bus Order, [5] DDR Alignment D[17:0] (right aligned)
         adv7511_update_register(0x48, 0b01100000, 0b01000000);
-        // [7] Enable DDR Negative Edge CLK Delay, [6:4] with 0ps delay
-        // [3:2] No sync pulse, [1] Data enable, then sync, [0] Fixed
-        adv7511_write_register(0xD0, 0b10111110);
         // [7:5] -0.4ns clock delay (one step from Conexant's 0ns)
         adv7511_update_register(0xBA, 0b11100000, 0b01000000);
     } else {
         // Conexant
         // [6] LSB .... MSB Reverse Bus Order, [5] DDR Alignment D[17:0] (right aligned)
         adv7511_update_register(0x48, 0b01100000, 0b01000000);
-        // [7] Enable DDR Negative Edge CLK Delay, [6:4] with 0ps delay
-        // [3:2] No sync pulse, [1] Data enable, then sync, [0] Fixed
-        adv7511_write_register(0xD0, 0b10111110);
         // [7:5] No clock delay
         adv7511_update_register(0xBA, 0b11100000, 0b01100000);
     }

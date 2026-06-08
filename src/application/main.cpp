@@ -1,26 +1,23 @@
 // Copyright 2021, Ryan Wendland, XboxHDMI by Ryzee119
 // SPDX-License-Identifier: MIT
 
-#include <stdio.h>
 #include "stm32f0xx_hal.h"
-#include "../shared/adv7511_i2c.h"
-#include "../shared/adv7511.h"
-#include "../shared/adv7511_xbox.h"
-#include "../shared/debug.h"
-#include "../shared/xbox_video_standalone.h"
-#include "../shared/error_handler.h"
-#include "../shared/gpio.h"
+#include "../shared/adv7511.hpp"
+#include "../shared/adv7511_xbox.hpp"
+#include "../shared/debug.hpp"
+#include "../shared/xbox_video_standalone.hpp"
+#include "../shared/gpio.hpp"
 #include "../shared/defines.h"
-#include "smbus_i2c.h"
-#include "xbox_video_bios.h"
+#include "smbus_i2c.hpp"
+#include "xbox_video_bios.hpp"
 
-adv7511 encoder;
-
-extern void SystemClock_Config(void);
+extern "C" void SystemClock_Config(void);
 
 #define VECTOR_TABLE_SIZE 48  // Covers 0xC0 bytes (16 + IRQs)
 #define APP_VECTOR_TABLE  ((uint32_t*)APP_START_ADDRESS)
 #define RAM_VECTOR_TABLE  ((uint32_t*)RAM_START_ADDRESS)
+
+adv7511 encoder;
 
 void relocate_vector_table_to_ram(void)
 {

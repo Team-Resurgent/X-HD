@@ -1,4 +1,4 @@
-#include "gpio.h"
+#include "gpio.hpp"
 #include "stm32f0xx_hal.h"
 
 void init_gpio() {

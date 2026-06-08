@@ -2,7 +2,7 @@
 #define __XBOX_VIDEO_BIOS_H__
 
 #include <stdint.h>
-#include "../shared/types.h"
+#include "../shared/types.hpp"
 
 typedef enum {
     VIDEO_REGION_NTSCM = 0x00000100,
@@ -39,7 +39,7 @@ typedef struct {
 } VideoMode;
 #pragma pack()
 
-static const VideoMode XCALIBUR_TABLE[] = {
+constexpr VideoMode XCALIBUR_TABLE[] = {
     { 95, 37,  640,  480,  43,   2,  7,  2, 0}, // 01 640x480_NTSC_RGB        OK
     { 95, 37,  720,  480,  41,   6,  7,  6, 0}, // 02 720x480_NTSC_RGB        OK
     { 95, 38,  640,  480,  63,  24,  1, 10, 0}, // 03 640x480_PAL_RGB         OK
@@ -60,7 +60,7 @@ static const VideoMode XCALIBUR_TABLE[] = {
     {142, 41,  640,  576,  87,   7,  6,  6, 0}  // 12 640x576_FPAR_PAL_RGB    OK
 };
 
-static const VideoMode CONEXANT_TABLE[] = {
+constexpr VideoMode CONEXANT_TABLE[] = {
     {122, 34,  640,  480,  13,  32, 10,  3, 0}, // 01 640x480_NTSC_RGB        OK
     {134, 34,  720,  480,  15,  32, 10,  3, 0}, // 02 720x480_NTSC_RGB        OK
     {254, 36,  640,  480,  55,  32,  8,  3, 0}, // 03 640x480_PAL_RGB         OK
@@ -81,7 +81,7 @@ static const VideoMode CONEXANT_TABLE[] = {
     {179, 39,  640,  576,  48,  32,  9,  3, 0}  // 12 640x576_FPAR_PAL_RGB    Cropped vertically
 };
 
-static const VideoMode FOCUS_TABLE[] = {
+constexpr VideoMode FOCUS_TABLE[] = {
     {179, 26,  640,  480, 115, 64, 18,  2, 0}, // 01 640x480_NTSC_RGB        OK
     {139, 26,  720,  480,  75, 64, 18,  2, 0}, // 02 720x480_NTSC_RGB        OK
     {143, 24,  640,  480,  79, 64, 20,  2, 0}, // 03 640x480_PAL_RGB         OK

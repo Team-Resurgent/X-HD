@@ -1,11 +1,12 @@
 #include <stdbool.h>
 
-#include "xbox_video_standalone.h"
-#include "adv7511.h"
-#include "adv7511_xbox.h"
-#include "debug.h"
+#include "xbox_video_standalone.hpp"
+#include "adv7511.hpp"
+#include "adv7511_vic.hpp"
+#include "adv7511_xbox.hpp"
+#include "debug.hpp"
 
-const video_setting_vic video_settings_conexant[] = {
+constexpr video_setting_vic video_settings_conexant[] = {
     {119, 36,  640, 480, VIC_01_VGA_640x480_4_3},
     {118, 36,  640, 480, VIC_02_480p_60__4_3},
     {118, 36,  720, 480, VIC_03_480p_60_16_9},
@@ -13,7 +14,7 @@ const video_setting_vic video_settings_conexant[] = {
     {233, 22, 1920, 540, VIC_05_1080i_60_16_9}
 };
 
-const video_setting_vic video_settings_focus[] = {
+constexpr video_setting_vic video_settings_focus[] = {
     {119, 36,  640, 480, VIC_01_VGA_640x480_4_3},
     {118, 36,  640, 480, VIC_02_480p_60__4_3},
     {118, 36,  720, 480, VIC_03_480p_60_16_9},
@@ -21,7 +22,7 @@ const video_setting_vic video_settings_focus[] = {
     {233, 22, 1920, 540, VIC_05_1080i_60_16_9}
 };
 
-const video_setting_vic video_settings_xcalibur[] = {
+constexpr video_setting_vic video_settings_xcalibur[] = {
     {119, 36,  640, 480, VIC_01_VGA_640x480_4_3},
     { 96, 36,  640, 480, VIC_02_480p_60__4_3},
     { 96, 36,  720, 480, VIC_03_480p_60_16_9},

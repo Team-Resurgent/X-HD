@@ -1,6 +1,6 @@
-#include "crc32.h"
+#include "crc32.hpp"
 #include "defines.h"
-#include "stm32.h"
+#include "stm32.hpp"
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -26,7 +26,7 @@ static void _crc32_init(void)
     crc32_table_initialized = true;
 }
 
-uint32_t crc32_calc(uint32_t start_addr, uint32_t length)
+uint32_t crc32_calc(const uint32_t start_addr, const uint32_t length)
 {
     uint32_t crc = 0xFFFFFFFF;
     const uint8_t *flash_ptr = (const uint8_t *)start_addr;
@@ -44,7 +44,7 @@ uint32_t crc32_calc(uint32_t start_addr, uint32_t length)
     return crc ^ 0xFFFFFFFF;
 }
 
-uint32_t crc32_copy(uint32_t start_addr, uint8_t* data, uint16_t data_size)
+uint32_t crc32_copy(const uint32_t start_addr, uint8_t* data, const uint16_t data_size)
 {
     uint32_t crc = 0xFFFFFFFF;
     const uint8_t *flash_ptr = (const uint8_t *)start_addr;

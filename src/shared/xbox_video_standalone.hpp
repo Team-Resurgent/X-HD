@@ -3,9 +3,8 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "adv7511.h"
-#include "adv7511_vic.h"
-#include "types.h"
+#include "adv7511.hpp"
+#include "types.hpp"
 
 #pragma pack(1)
 typedef struct video_setting {

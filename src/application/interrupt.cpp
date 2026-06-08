@@ -1,6 +1,8 @@
 #include "stm32f0xx_hal.h"
-#include "../shared/adv7511.h"
-#include "../shared/debug.h"
+#include "../shared/adv7511.hpp"
+#include "../shared/debug.hpp"
+
+extern "C" {
 
 void SysTick_Handler(void) {
     HAL_IncTick();
@@ -18,3 +20,5 @@ void ADV_IRQ_HANDLER(void) {
     encoder.interrupt = 1;
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_7);
 }
+
+} //extern "C"

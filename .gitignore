@@ -3,3 +3,4 @@
 include
 test
 lib
+compile_commands.json

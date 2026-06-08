@@ -1,9 +1,8 @@
-#include "smbus_i2c.h"
-#include "stm32.h"
-#include "../shared/debug.h"
+#include "smbus_i2c.hpp"
+#include "stm32.hpp"
+#include "../shared/debug.hpp"
 #include "../shared/defines.h"
-#include "../shared/flash.h"
-#include <string.h>
+#include "../shared/flash.hpp"
 
 volatile I2C_HandleTypeDef hi2c2;
 static uint32_t state = SMBUS_SMS_READY;

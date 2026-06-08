@@ -1,5 +1,5 @@
-#include "debug.h"
-#include "stm32.h"
+#include "debug.hpp"
+#include "stm32.hpp"
 
 #include <stdio.h>
 #include <string.h>

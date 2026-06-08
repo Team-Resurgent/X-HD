@@ -2,5 +2,3 @@
 // SPDX-License-Identifier: MIT
 
 #pragma once
-
-#include "../shared/error_handler.h"

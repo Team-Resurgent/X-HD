@@ -4,7 +4,7 @@
 #ifndef __ADV7511_H__
 #define __ADV7511_H__
 
-#include "stm32.h"
+#include "stm32.hpp"
 #include "stdbool.h"
 
 #define BIT(nr) (1UL << (nr))

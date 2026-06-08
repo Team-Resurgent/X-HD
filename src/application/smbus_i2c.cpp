@@ -1,7 +1,7 @@
-#include "smbus_i2c.h"
-#include "stm32.h"
-#include "flash.h"
-#include "../shared/debug.h"
+#include "smbus_i2c.hpp"
+#include "../shared/stm32.hpp"
+#include "../shared/flash.hpp"
+#include "../shared/debug.hpp"
 #include "../shared/defines.h"
 #include <string.h>
 
