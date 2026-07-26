@@ -130,12 +130,14 @@ void set_adv_video_mode_bios(const VideoMode vm, const bool widescreen, const bo
         adv7511_write_register(0xD9, (uint8_t)(vm.hsync_duration  << 4) | (vm.vsync_placement >> 6));
         adv7511_write_register(0xDA, (uint8_t)(vm.vsync_placement << 2) | (vm.vsync_duration  >> 8));
         adv7511_write_register(0xDB, (uint8_t)(vm.vsync_duration));
+        // Enable sync adjustment
+        adv7511_update_register(0x41, 0b00000010, 0b00000010);
+    } else {
+        // Disable sync adjustment
+        adv7511_update_register(0x41, 0b00000010, 0b00000000);
     }
 
     adv7511_write_register(0xDC, (uint8_t)(vm.interlaced_offset << 5));
-
-    // Enable settings
-    adv7511_update_register(0x41, 0b00000010, 0b00000010);
 
     // Fixes jumping for 1080i, somehow doing this in the init sequence doesn't stick or gets reset
     adv7511_update_register(0xD0, 0b00000010, 0b00000010);
