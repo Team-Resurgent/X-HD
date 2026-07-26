@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <stdint.h>
 
 #include "xbox_video_standalone.h"
 #include "adv7511.h"
@@ -6,27 +7,27 @@
 #include "debug.h"
 
 const video_setting_vic video_settings_conexant[] = {
-    {119, 36,  640, 480, VIC_01_VGA_640x480_4_3},
-    {118, 36,  640, 480, VIC_02_480p_60__4_3},
-    {118, 36,  720, 480, VIC_03_480p_60_16_9},
-    {299, 25, 1280, 720, VIC_04_720p_60_16_9},
-    {233, 22, 1920, 540, VIC_05_1080i_60_16_9}
+    {120, 36,  640, 480, VIC_01_VGA_640x480_4_3},
+    {119, 36,  640, 480, VIC_02_480p_60__4_3},
+    {119, 36,  720, 480, VIC_03_480p_60_16_9},
+    {300, 25, 1280, 720, VIC_04_720p_60_16_9},
+    {234, 22, 1920, 540, VIC_05_1080i_60_16_9}
 };
 
 const video_setting_vic video_settings_focus[] = {
-    {119, 36,  640, 480, VIC_01_VGA_640x480_4_3},
-    {118, 36,  640, 480, VIC_02_480p_60__4_3},
-    {118, 36,  720, 480, VIC_03_480p_60_16_9},
-    {299, 25, 1280, 720, VIC_04_720p_60_16_9},
-    {233, 22, 1920, 540, VIC_05_1080i_60_16_9}
+    {120, 36,  640, 480, VIC_01_VGA_640x480_4_3},
+    {119, 36,  640, 480, VIC_02_480p_60__4_3},
+    {119, 36,  720, 480, VIC_03_480p_60_16_9},
+    {300, 25, 1280, 720, VIC_04_720p_60_16_9},
+    {234, 22, 1920, 540, VIC_05_1080i_60_16_9}
 };
 
 const video_setting_vic video_settings_xcalibur[] = {
-    {119, 36,  640, 480, VIC_01_VGA_640x480_4_3},
-    { 96, 36,  640, 480, VIC_02_480p_60__4_3},
-    { 96, 36,  720, 480, VIC_03_480p_60_16_9},
-    {259, 25, 1280, 720, VIC_04_720p_60_16_9},
-    {185, 22, 1920, 540, VIC_05_1080i_60_16_9}
+    {120, 36,  640, 480, VIC_01_VGA_640x480_4_3},
+    { 97, 36,  640, 480, VIC_02_480p_60__4_3},
+    { 97, 36,  720, 480, VIC_03_480p_60_16_9},
+    {260, 25, 1280, 720, VIC_04_720p_60_16_9},
+    {186, 22, 1920, 540, VIC_05_1080i_60_16_9}
 };
 
 void stand_alone_loop(adv7511 * encoder, const xbox_encoder xb_encoder) {
@@ -90,8 +91,10 @@ void set_video_mode_vic(const xbox_encoder xb_encoder, const uint8_t mode, const
         adv7511_disable_csc();
     }
 
-    adv7511_write_register(0x35, (uint8_t)(vs->delay_hs >> 2));
-    adv7511_write_register(0x36, ((0b00111111 & (uint8_t)vs->delay_vs)) | (0b11000000 & (uint8_t)(vs->delay_hs << 6)));
+    // 0xFB[7],0x35 and 0x36[7:6] adv expects actual value -1
+    const uint16_t adv_delay_hs = vs->delay_hs - 1;
+    adv7511_write_register(0x35, (uint8_t)(adv_delay_hs >> 2));
+    adv7511_write_register(0x36, ((0b00111111 & (uint8_t)vs->delay_vs)) | (0b11000000 & (uint8_t)(adv_delay_hs << 6)));
     adv7511_update_register(0x37, 0b00011111, (uint8_t)(vs->active_w >> 7)); // 0x37 is shared with interlaced
     adv7511_write_register(0x38, (uint8_t)(vs->active_w << 1));
     adv7511_write_register(0x39, (uint8_t)(vs->active_h >> 4));

@@ -115,18 +115,23 @@ void set_adv_video_mode_bios(const VideoMode vm, const bool widescreen, const bo
         adv7511_disable_csc();
     }
 
-    adv7511_write_register(0x35, (uint8_t)(vm.hs_delay >> 2));
-    adv7511_write_register(0x36, ((0b00111111 & (uint8_t)vm.vs_delay)) | (0b11000000 & (uint8_t)(vm.hs_delay << 6)));
+    // 0xFB[7],0x35 and 0x36[7:6] adv expects actual value -1
+    const uint16_t adv_delay_hs = vm.hs_delay - 1;
+    adv7511_write_register(0x35, (uint8_t)(adv_delay_hs >> 2));
+    adv7511_write_register(0x36, ((0b00111111 & (uint8_t)vm.vs_delay)) | (0b11000000 & (uint8_t)(adv_delay_hs << 6)));
     adv7511_update_register(0x37, 0b00011111, (uint8_t)(vm.h_active >> 7)); // 0x37 is shared with interlaced
     adv7511_write_register(0x38, (uint8_t)(vm.h_active << 1));
     adv7511_write_register(0x39, (uint8_t)(vm.v_active >> 4));
     adv7511_write_register(0x3A, (uint8_t)(vm.v_active << 4));
 
-    adv7511_write_register(0xD7, (uint8_t)(vm.hsync_placement >> 2));
-    adv7511_write_register(0xD8, (uint8_t)(vm.hsync_placement << 6) | (vm.hsync_duration  >> 4));
-    adv7511_write_register(0xD9, (uint8_t)(vm.hsync_duration  << 4) | (vm.vsync_placement >> 6));
-    adv7511_write_register(0xDA, (uint8_t)(vm.vsync_placement << 2) | (vm.vsync_duration  >> 8));
-    adv7511_write_register(0xDB, (uint8_t)(vm.vsync_duration));
+    if (vm.sync_adjust_enabled) {
+        adv7511_write_register(0xD7, (uint8_t)(vm.hsync_placement >> 2));
+        adv7511_write_register(0xD8, (uint8_t)(vm.hsync_placement << 6) | (vm.hsync_duration  >> 4));
+        adv7511_write_register(0xD9, (uint8_t)(vm.hsync_duration  << 4) | (vm.vsync_placement >> 6));
+        adv7511_write_register(0xDA, (uint8_t)(vm.vsync_placement << 2) | (vm.vsync_duration  >> 8));
+        adv7511_write_register(0xDB, (uint8_t)(vm.vsync_duration));
+    }
+
     adv7511_write_register(0xDC, (uint8_t)(vm.interlaced_offset << 5));
 
     // Enable settings
